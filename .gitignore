@@ -1,0 +1,7 @@
+# Ignore credentials file
+program/credentials.h
+
+# Arduino build files
+program/*.elf
+program/*.bin
+program/*.cache

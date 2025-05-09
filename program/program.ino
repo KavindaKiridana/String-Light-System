@@ -1,4 +1,7 @@
 #include <Arduino.h>
+#include <ESP8266WiFi.h>  // This is the WiFi library for ESP8266
+
+#include "credentials.h"  // Changed from direct credentials
 
 // Correct GPIO pins for ESP8266 (NodeMCU)
 const int led1 = D1;  // GPIO5
@@ -7,6 +10,16 @@ const int led3 = D5;  // GPIO14
 const int led4 = D6;  // GPIO12
 
 void setup() {
+  Serial.begin(115200);
+
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.print("Connecting to Wi-Fi");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+  Serial.println("\n Successfully connected to WiFi!");
+
   // Initialize each LED pin as output
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
