@@ -16,7 +16,7 @@ const int led2 = D2;  // GPIO4
 const int led3 = D5;  // GPIO14
 const int led4 = D6;  // GPIO12
 
-String turningPoint="2025-05-09 21:10";
+String turningPoint="2025-05-09 21:20";
 
 // --------------------- Get Formatted Time -----------------------
 String getFormattedTime()//later added
@@ -80,6 +80,7 @@ void loop() {
     digitalWrite(led3, LOW);
     digitalWrite(led4, LOW);
     
+    delay(1000); 
     return;  // Exit the loop function immediately
   }
   Serial.println(currentTime);
