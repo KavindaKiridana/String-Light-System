@@ -2,6 +2,7 @@
 #include <ESP8266WiFi.h>  // This is the WiFi library for ESP8266
 #include <NTPClient.h>      // For NTP time functionality
 #include <WiFiUdp.h>        // For UDP communication
+#include <LittleFS.h>
 
 #include "credentials.h"  // Changed from direct credentials
 
