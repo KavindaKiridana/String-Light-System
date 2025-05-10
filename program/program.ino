@@ -19,7 +19,7 @@ const int led3 = D5;
 const int led4 = D6;
 
 // Variables
-String turningPoint="2025-05-09 21:20";//
+String turningPoint="2025-05-10 15:58";//
 bool webSwitch = true;
 int timerHours = 0;
 unsigned long timerEndEpoch = 0;
