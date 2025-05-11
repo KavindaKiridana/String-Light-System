@@ -203,7 +203,44 @@ void setup() {
 void loop() {
   // Handle incoming client requests
   server.handleClient();
-
+  
+  // Check if WiFi is still connected
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("WiFi disconnected! Stopping light sequence.");
+    
+    // Turn off all LEDs while disconnected
+    digitalWrite(led1, LOW);  // Also turn off power LED
+    digitalWrite(led2, LOW);
+    digitalWrite(led3, LOW);
+    digitalWrite(led4, LOW);
+    
+    Serial.println("Attempting to reconnect to WiFi...");
+    
+    // Try to reconnect with timeout
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    Serial.print("Connecting to Wi-Fi");
+    
+    int reconnectAttempts = 0;
+    while (WiFi.status() != WL_CONNECTED && reconnectAttempts < 20) {
+      Serial.print(".");
+      delay(500);
+      reconnectAttempts++;
+    }
+    
+    if (WiFi.status() == WL_CONNECTED) {
+      Serial.println("\nSuccessfully reconnected to WiFi!");
+      Serial.print("IP address: ");
+      Serial.println(WiFi.localIP());
+      
+      // Resume normal operation without returning from the loop
+    } else {
+      Serial.println("\nFailed to reconnect to WiFi!");
+      Serial.println("Will try again in the next loop iteration");
+      delay(5000);  // Wait 5 seconds before next attempt
+      return;       // Skip the rest of this loop iteration
+    }
+  }
+  
   String currentTime = getFormattedTime();
   if(turningPoint==currentTime || !webSwitch){
     if(turningPoint==currentTime){
@@ -213,7 +250,7 @@ void loop() {
     }
     
     // Turn off all LEDs before stopping
-    // digitalWrite(led1, LOW);
+    digitalWrite(led1, LOW);  // Also turn off power LED 
     digitalWrite(led2, LOW);
     digitalWrite(led3, LOW);
     digitalWrite(led4, LOW);
@@ -222,12 +259,8 @@ void loop() {
     return;  // Exit the loop function immediately
   }
   Serial.println(currentTime);
-
-  // Sequence with delays between each LED
-  // digitalWrite(led1, HIGH);
-  // delay(500);
-  // digitalWrite(led1, LOW);
   
+  // Sequence with delays between each LED
   digitalWrite(led2, HIGH);
   delay(500);
   digitalWrite(led2, LOW);
@@ -239,6 +272,6 @@ void loop() {
   digitalWrite(led4, HIGH);
   delay(500);
   digitalWrite(led4, LOW);
-
-  digitalWrite(led1, HIGH);//this buld is turned on always this program keep power supply on
+  
+  digitalWrite(led1, HIGH);  // this bulb is turned on always this program keep power supply on
 }
