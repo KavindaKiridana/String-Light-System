@@ -16,12 +16,12 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 19800, 60000);
 ESP8266WebServer server(80);// Create web server on port 80
 
 // Correct GPIO pins for ESP8266 (NodeMCU)
-//const int led1 = D1;  // GPIO5
+const int led1 = D1;  // GPIO5
 const int led2 = D2;  // GPIO4
 const int led3 = D5;  // GPIO14
 const int led4 = D6;  // GPIO12
 
-String turningPoint="2025-05-09 21:20";
+String turningPoint="2025-05 05";
 bool webSwitch = true;  // Switch state variable
 
 // --------------------- Get Formatted Time -----------------------
@@ -32,12 +32,10 @@ String getFormattedTime()//later added
   struct tm *timeinfo = localtime(&rawTime);
 
   char buffer[25];
-  sprintf(buffer, "%04d-%02d-%02d %02d:%02d",
+  sprintf(buffer, "%04d-%02d %02d",
           timeinfo->tm_year + 1900,
           timeinfo->tm_mon + 1,
-          timeinfo->tm_mday,
-          timeinfo->tm_hour,
-          timeinfo->tm_min);
+          timeinfo->tm_hour);
   return String(buffer);
 }
 
@@ -190,13 +188,13 @@ void setup() {
   Serial.println("Time synchronized");
 
   // Initialize each LED pin as output
-  // pinMode(led1, OUTPUT);
+ pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(led3, OUTPUT);
   pinMode(led4, OUTPUT);
   
   // Turn all LEDs off initially
-  // digitalWrite(led1, LOW);
+   digitalWrite(led1, LOW);
   digitalWrite(led2, LOW);
   digitalWrite(led3, LOW);
   digitalWrite(led4, LOW);
@@ -241,4 +239,6 @@ void loop() {
   digitalWrite(led4, HIGH);
   delay(500);
   digitalWrite(led4, LOW);
+
+  digitalWrite(led1, HIGH);//this buld is turned on always this program keep power supply on
 }
